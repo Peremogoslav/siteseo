@@ -79,17 +79,17 @@ export const useModelsStore = create<ModelsState>((set, get) => ({
 
   setSearchQuery: (query: string) => {
     set({ searchQuery: query, currentPage: 0 });
-    // В реальном приложении здесь будет фильтрация
+    // TODO: Реализовать фильтрацию на стороне API
   },
 
   setSelectedServices: (services: number[]) => {
     set({ selectedServices: services, currentPage: 0 });
-    // В реальном приложении здесь будет фильтрация
+    // TODO: Реализовать фильтрацию на стороне API
   },
 
   setSelectedPlace: (place: string) => {
     set({ selectedPlace: place, currentPage: 0 });
-    // В реальном приложении здесь будет фильтрация
+    // TODO: Реализовать фильтрацию на стороне API
   },
 
   resetFilters: () => {

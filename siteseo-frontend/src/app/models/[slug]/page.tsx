@@ -38,7 +38,7 @@ export default function ModelDetailPage() {
                 <div className="h-4 bg-muted rounded w-1/2" />
                 <div className="space-y-2">
                   {[...Array(4)].map((_, i) => (
-                    <div key={`loading-${i}`} className="h-4 bg-muted rounded" />
+                    <div key={`loading-skeleton-${i}`} className="h-4 bg-muted rounded" />
                   ))}
                 </div>
               </div>

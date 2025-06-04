@@ -7,6 +7,7 @@ import { ModelCard } from "@/components/ModelCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useModelsStore } from "@/store/models";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -83,32 +84,65 @@ export default function HomePage() {
 
             {/* Filters */}
             <div className="mb-8 p-6 bg-card rounded-lg border">
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1">
-                  <Input
-                    placeholder="Поиск по имени или описанию..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
+              <div className="space-y-4">
+                {/* Search and Location */}
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1">
+                    <Input
+                      placeholder="Поиск по имени или описанию..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+
+                  <Select value={selectedPlace} onValueChange={setSelectedPlace}>
+                    <SelectTrigger className="w-full md:w-48">
+                      <SelectValue placeholder="Выберите город" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Все города</SelectItem>
+                      {uniquePlaces.map((place) => (
+                        <SelectItem key={place} value={place || ""}>
+                          {place}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <Button variant="outline" onClick={resetFilters}>
+                    Сбросить фильтры
+                  </Button>
                 </div>
 
-                <Select value={selectedPlace} onValueChange={setSelectedPlace}>
-                  <SelectTrigger className="w-full md:w-48">
-                    <SelectValue placeholder="Выберите город" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">Все города</SelectItem>
-                    {uniquePlaces.map((place) => (
-                      <SelectItem key={place} value={place || ""}>
-                        {place}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <Button variant="outline" onClick={resetFilters}>
-                  Сбросить фильтры
-                </Button>
+                {/* Services Filter */}
+                {services.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-medium mb-3">Услуги:</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                      {services.map((service) => (
+                        <div key={service.id} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`service-${service.id}`}
+                            checked={selectedServices.includes(service.id)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSelectedServices([...selectedServices, service.id]);
+                              } else {
+                                setSelectedServices(selectedServices.filter(id => id !== service.id));
+                              }
+                            }}
+                          />
+                          <label
+                            htmlFor={`service-${service.id}`}
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                          >
+                            {service.name}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Active Filters */}
@@ -140,7 +174,7 @@ export default function HomePage() {
             {isLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {[...Array(8)].map((_, i) => (
-                  <div key={`skeleton-${i}`} className="animate-pulse">
+                  <div key={`models-skeleton-${i}`} className="animate-pulse">
                     <div className="aspect-[3/4] bg-muted rounded-lg mb-4" />
                     <div className="space-y-2">
                       <div className="h-4 bg-muted rounded w-3/4" />

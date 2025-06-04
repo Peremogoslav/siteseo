@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/auth";
+import { ToastProvider } from "@/components/ui/toast";
 
 interface ClientBodyProps {
   children: React.ReactNode;
@@ -17,7 +18,9 @@ export function ClientBody({ children, className }: ClientBodyProps) {
 
   return (
     <body className={className} suppressHydrationWarning>
-      {children}
+      <ToastProvider>
+        {children}
+      </ToastProvider>
     </body>
   );
 }
