@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /models/*
+Allow: /services/*
+
+Disallow: /admin/*
+Disallow: /login
+Disallow: /register
+Disallow: /api/*
+
+Sitemap: https://yourdomain.com/sitemap.xml
